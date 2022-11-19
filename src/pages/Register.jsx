@@ -5,7 +5,7 @@ const Register = () => {
   return (
     <div className="formContainer">
       <div className="formWrapper">
-        <span className="logo heading-register"> Naresh Chat-App </span>
+        <span className="logo heading-register"> N Chat </span>
         <span className="title heading-register">Register</span>
 
         <form>
