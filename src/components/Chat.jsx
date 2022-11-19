@@ -3,6 +3,8 @@ import React from "react";
 import Add from "../images/add.svg";
 import More from "../images/more.svg";
 import Camera from "../images/camera.svg";
+import Messages from "./Messages";
+import Input from "./Input";
 
 const Chat = () => {
   return (
@@ -15,6 +17,8 @@ const Chat = () => {
           <img src={More} alt="More options icon" />
         </div>
       </div>
+      <Messages />
+      <Input />
     </div>
   );
 };
