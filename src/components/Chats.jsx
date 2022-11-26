@@ -1,39 +1,40 @@
-import React from "react";
-import Profile from "../images/profile.svg";
+import { onSnapshot, doc } from "firebase/firestore";
+import { db } from "../firebase";
+import React, { useEffect, useState } from "react";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 const Chats = () => {
+  const [chats, setChats] = useState([]);
+
+  const { currentUser } = useContext(AuthContext);
+
+  useEffect(() => {
+    const getChats = () => {
+      const unsub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
+        setChats(doc.data());
+      });
+
+      return () => {
+        unsub();
+      };
+    };
+
+    currentUser.uid && getChats();
+  }, [currentUser.uid]);
+
+  // console.log(Object.entries(chats));
   return (
     <div className="chats">
-      <div className="userChat">
-        <img src={Profile} alt="profile img" />
-        <div className="userChatInfo">
-          <span>Jane</span>
-          <p>Hello</p>
+      {Object.entries(chats)?.map((chat) => (
+        <div className="userChat" key={chat[0]}>
+          <img src={chat[1].userInfo.photoURL} alt="profile img" />
+          <div className="userChatInfo">
+            <span>{chat[1].userInfo.displayName}</span>
+            <p>{chat[1].userInfo.lastMessage?.text}</p>
+          </div>
         </div>
-      </div>
-
-      {/* testting upto last div */}
-      <div className="userChat">
-        <img src={Profile} alt="profile img" />
-        <div className="userChatInfo">
-          <span>Jane</span>
-          <p>Hello</p>
-        </div>
-      </div>
-      <div className="userChat">
-        <img src={Profile} alt="profile img" />
-        <div className="userChatInfo">
-          <span>Jane</span>
-          <p>Hello</p>
-        </div>
-      </div>
-      <div className="userChat">
-        <img src={Profile} alt="profile img" />
-        <div className="userChatInfo">
-          <span>Jane</span>
-          <p>Hello</p>
-        </div>
-      </div>
+      ))}
     </div>
   );
 };
