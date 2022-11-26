@@ -24,6 +24,7 @@ const Register = () => {
 
       const uploadTask = uploadBytesResumable(storageRef, file);
 
+      // Register three observer
       uploadTask.on(
         (error) => {
           // Handle unsuccessful uploads
