@@ -14,6 +14,7 @@ import {
 import { db } from "../firebase";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { ChatContext } from "../context/ChatContext";
 
 const Search = () => {
   const [username, setUsername] = useState("");
@@ -21,6 +22,7 @@ const Search = () => {
   const [err, setErr] = useState(false);
 
   const { currentUser } = useContext(AuthContext);
+  const { dispatch } = useContext(ChatContext);
 
   const handleSearch = async () => {
     const q = query(
@@ -42,7 +44,9 @@ const Search = () => {
     e.code === "Enter" && handleSearch();
   };
 
-  const handleSelect = async () => {
+  const handleSelect = async (user) => {
+    dispatch({ type: "CHANGE_USER", payload: user });
+
     const combinedId =
       currentUser.uid > user.uid
         ? currentUser.uid + user.uid
@@ -94,7 +98,12 @@ const Search = () => {
       </div>
       {err && <span>User not found ! 😥😥😥</span>}
       {user && (
-        <div className="userChat" onClick={handleSelect}>
+        <div
+          className="userChat"
+          onClick={() => {
+            handleSelect(user);
+          }}
+        >
           <img src={user.photoURL} alt="profile img" />
           <div className="userChatInfo">
             <span>{user.displayName}</span>
