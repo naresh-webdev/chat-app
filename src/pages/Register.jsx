@@ -56,7 +56,7 @@ const Register = () => {
   return (
     <div className="formContainer">
       <div className="formWrapper">
-        <span className="logo heading-register"> N Chat </span>
+        <span className="logo heading-register">Chat Space</span>
         <span className="title heading-register">Register</span>
 
         <form onSubmit={handleSubmit}>
